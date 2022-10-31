@@ -5,13 +5,15 @@ using UnityEngine.UI;
 
 public class PlayerInformation : MonoBehaviour
 {
-    PlayerController playerController; //Access for speed modifications
+    private PlayerController playerController; //Access for speed modifications
     public GameObject player;
+    public HUDControl hdControl;
     [SerializeField] private Image HealthCircle; //Hp display tracker
 
     private IEnumerator coroutine;
 
     // Player determined stats
+    [Header("Player Stats")]
     public int spirit = 5; // determines Max Health
     public float speed = 1.1f; // determines player movement speed
     public float glory = 1.1f; // determintes crowd effect
@@ -56,24 +58,24 @@ public class PlayerInformation : MonoBehaviour
     {
         maxHealth = spirit * 10;
         currentHealth = maxHealth;
-        Debug.Log(maxHealth + "/" + currentHealth);
+        UpdateHealth();
+        playerController.UpdatePlayerSpeed(speed);
     }
 
     // Update is called once per frame
     void Update()
     {
-        playerController.updatePlayerSpeed(speed);
         if (currentHealth <= 0)
         {
             //Debug.Log("Player died");
         }
-        UpdateHealth();
-
+        
     }
 
     private void UpdateHealth()
     {
-        HealthCircle.fillAmount = currentHealth / maxHealth;
+        HealthCircle.fillAmount = currentHealth / maxHealth; // Updates health bar graphic
+        hdControl.UpdateHealthText(currentHealth, maxHealth); //Updates health text
     }
     public float GetMaxHealth()
     {
@@ -83,7 +85,11 @@ public class PlayerInformation : MonoBehaviour
     public void TakeHealing(float healing)
     {
         Debug.Log("Player heals for: " + healing);
-        currentHealth += healing * healingTakenModifier;
+        if(healing + currentHealth >= maxHealth)
+            currentHealth = maxHealth;
+        else
+            currentHealth += healing * healingTakenModifier;
+        UpdateHealth();
     }
 
     // Final step of damage processing 
@@ -101,9 +107,10 @@ public class PlayerInformation : MonoBehaviour
         }
         Debug.Log("Player takes: " + damage * damageTakenModifier + " damage and has " + currentHealth + " health remaining");
         currentHealth -= damage * damageTakenModifier;
+        UpdateHealth();
     }
 
-    public void TakeMeleeDamage(int damage)
+    public void TakeMeleeDamage(float damage)
     {
         TakeDamage(damage - guile - (3*protection));
     }
@@ -244,8 +251,10 @@ public class PlayerInformation : MonoBehaviour
         float percent = severity / 100;
         Debug.Log("Player is slowed by " + percent + " %");
         speed /= severity;  // slow player
+        playerController.UpdatePlayerSpeed(speed);
         yield return new WaitForSeconds(duration);
         speed *= severity;  // speed them back up
+        playerController.UpdatePlayerSpeed(speed);
         isSlowed = false;
     }
 }

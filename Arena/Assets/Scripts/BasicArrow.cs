@@ -12,6 +12,7 @@ public class BasicArrow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        transform.LookAt(_target);
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
@@ -19,6 +20,7 @@ public class BasicArrow : MonoBehaviour
     void Update()
     {
         transform.position = Vector3.MoveTowards(transform.position, _target, _projectileSpeed * Time.deltaTime);
+        
         if(transform.position == _target)
         {
             Destroy(this.gameObject);
@@ -33,17 +35,10 @@ public class BasicArrow : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.tag);
         if (collision.gameObject.CompareTag("Player"))
         {
             collision.gameObject.GetComponentInParent<PlayerInformation>().TakeMeleeDamage(15);
             Destroy(this.gameObject);
         }
-        else
-        {
-            Debug.Log("Ever?>>");
-            Destroy(this.gameObject);
-        }
-
     }
 }

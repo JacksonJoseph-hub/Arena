@@ -9,6 +9,7 @@ public class Enemy_BasicRanger_Controller : MonoBehaviour
     private GameObject player;
     public Transform firePosition;
     private Vector3 playerPosition;
+    private EnemyInformation gruntInfo;
     private UnityEngine.AI.NavMeshAgent navAgent;
 
 
@@ -16,17 +17,16 @@ public class Enemy_BasicRanger_Controller : MonoBehaviour
 
     //This will be the enemy speed. Adjust as necessary.
     public float movementSpeed = 1.5f;
-    public bool isMoving;
 
     //Minimum distance before firing
     public float minShootRange = 5.0f;
     public float maxShootRange = 25.0f;
 
     //Time between attacks
-    public float attackDelay = 1.7f;
+    public float attackDelay;
     //Max distance of attack
-    public float attackRange = 15.0f;
-    public float projectileSpeed = 3.0f;
+    public float attackRange;
+    public float projectileSpeed;
     private float nextShot;
 
 
@@ -34,10 +34,16 @@ public class Enemy_BasicRanger_Controller : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        gruntInfo = gameObject.GetComponent<EnemyInformation>();
+
+        attackDelay = gruntInfo.attackSpeed;
+        attackRange = gruntInfo.attackRange;
+        projectileSpeed = gruntInfo.projectileSpeed;
+
         nextShot = Time.time + attackDelay;
         navAgent = gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>();
-        isMoving = false;
 
+        navAgent.speed = gruntInfo.speed;
     }
 
     // Update is called once per frame
@@ -56,61 +62,38 @@ public class Enemy_BasicRanger_Controller : MonoBehaviour
         playerPosition = player.transform.position; //Update player position
 
 
-        if(!InRange()) // Check if the player is too far away - true = move towards player
+        if (!InRange()) // Check if the player is too far away - true = move towards player
         {
-            Debug.Log("Moving towards player");
-            MoveTowardsPlayer(); 
+            navAgent.isStopped = false;
+            navAgent.SetDestination(playerPosition); 
         }     
-        else if(DistanceCheck() <= minShootRange) // Check if the player is too far away - true = move towards player
+        else if(RunAway()) // Check if the player is too far away - true = move towards player
         {
-            RunAway();
+            Vector3 direction = transform.position - playerPosition; //Sets direction to opposite way of player
+            Vector3 moveTo = transform.position + direction * 2;
+            navAgent.isStopped = false;
+            navAgent.SetDestination(moveTo);
         }
-        else if (AttackCooldownCheck()) // Check if the player can shoot (not moving, attack not on cooldown)
+        else if (AttackCooldownCheck() && !RunAway()) // Check if the player can shoot (not moving, attack not on cooldown)
         {
-            Debug.Log("Can shoot = true");
-            //RunAway();
+            navAgent.isStopped = true;
             ShootArrow();     
         }
     }
     
     private bool InRange()
     {
-        
-        if(DistanceCheck() <= maxShootRange)
-        {
-            Debug.Log("In Range");
-            return true;
-        }
-        Debug.Log("Out of Range");
-        return false;
+        return DistanceCheck() <= maxShootRange;
     }
 
-    private void MoveTowardsPlayer()
-    {
-        isMoving = true;
-        transform.position = Vector3.MoveTowards(transform.position, playerPosition, movementSpeed * Time.deltaTime);
-
-    }
     private bool AttackCooldownCheck()
     {
         return Time.time > nextShot;
     }
 
-    private bool CanShoot()
+    private bool RunAway()
     {
-        if (DistanceCheck() >= minShootRange && !isMoving && AttackCooldownCheck())
-        {
-            return true;
-        }
-        return false;
-    }
-    private void RunAway()
-    {
-        while(DistanceCheck() <= minShootRange)
-        {
-            isMoving = true;
-        }
-        isMoving = false;
+        return DistanceCheck() <= minShootRange;
     }
 
     private float DistanceCheck()

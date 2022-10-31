@@ -7,68 +7,74 @@ public class Enemy_BasicMelee_Controller : MonoBehaviour
     //You may consider adding a rigid body to the zombie for accurate physics simulation
     private GameObject player;
     private PlayerInformation playerInfo;
-    private Transform playerPosition;
+    private EnemyInformation gruntInfo;
+    public Vector3 playerPosition;
+    private UnityEngine.AI.NavMeshAgent navAgent;
 
     //This will be the enemy speed. Adjust as necessary.
     public float movementSpeed = 1.5f;
 
     //Time between attacks
-    public float attackDelay = 1.7f;
+    public float attackDelay;
     //Max distance of attack
-    public float attackRange = 5.0f;
+    public float attackRange;
 
     private bool isAttacking = false;
 
-    private float minAttackDamage = 3;
-    private float maxAttackDamage = 18;
+    private float minAttackDamage;
+    private float maxAttackDamage;
 
 
 
-    private void Awake()
-    {
-        player = GameObject.FindGameObjectWithTag("Player"); //Assign player game object
-        playerPosition = player.transform; //Track its position (for pathing/shooting)
-        playerInfo = player.GetComponentInParent<PlayerInformation>(); //Access info script to set effects/pass damage
-    }
+
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player"); //Assign player game object
+        gruntInfo = gameObject.GetComponent<EnemyInformation>();
 
+        attackDelay = gruntInfo.attackSpeed;
+        attackRange = gruntInfo.attackRange;
+
+        navAgent = gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>();
+        navAgent.speed = movementSpeed;
+
+        playerPosition = player.transform.position; //Track its position (for pathing/shooting)
+        playerInfo = player.GetComponentInParent<PlayerInformation>(); //Access info script to set effects/pass damage
+        
     }
 
     void Update()
     {
+        playerPosition = player.transform.position;
+        navAgent.speed = movementSpeed;
         transform.LookAt(playerPosition);
+        navAgent.SetDestination(playerPosition);
+
+
         if (InAttackRange() && !isAttacking)
         {
+            minAttackDamage = gruntInfo.strength;
+            maxAttackDamage = gruntInfo.strength * 10;
             StartCoroutine(Attack());
         }
-        else
-            MoveTowardsPlayer();
     }
     private bool InAttackRange()
     {
-            if (Vector3.Distance(transform.position, playerPosition.position) >= attackRange)
-                return false;
-            else
-                return true;
-    }
-    private void MoveTowardsPlayer()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, playerPosition.position, movementSpeed * Time.deltaTime);
+        return Vector3.Distance(transform.position, playerPosition) <= attackRange;
     }
 
     IEnumerator Attack()
     {
 
         isAttacking = true;
-        movementSpeed = movementSpeed / 5;
+        navAgent.isStopped = true;
         yield return new WaitForSeconds(attackDelay);
         if(InAttackRange())
             {
                 playerInfo.TakeMeleeDamage(Mathf.FloorToInt(Random.Range(minAttackDamage,maxAttackDamage)));
                 //playerInfo.SetNegativeStatusEffect(6.0f, 2, 2);
             }
-        movementSpeed = movementSpeed * 5; 
+        navAgent.isStopped = false;
         isAttacking = false;
     }
 

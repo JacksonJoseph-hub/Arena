@@ -17,8 +17,8 @@ public class TowerFollower : MonoBehaviour
     private Material _m_Healing;
 
     private IEnumerator coroutine; // To use while tower is active timers
-    private float effectRadius;
-    private float effectDuriation;
+    public float effectRadius;
+    public float effectDuriation;
     private float effectDuriationTimer;
     private bool activeEffect = false;
 
@@ -40,15 +40,22 @@ public class TowerFollower : MonoBehaviour
     }
     private bool CheckForPlayer()
     {
+
+        /*
+        return(Vector3.Distance(effectSphere.transform.position, player.transform.position) <= effectRadius)
+        */
+        //*
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, effectRadius);
         foreach (Collider c in hitColliders)
         {
             if (c.CompareTag("Player"))
             {
+                
                 return true;
             }
         }  
         return false;
+       // */
     }
 
     public void FlipActiveStatus()
@@ -61,7 +68,8 @@ public class TowerFollower : MonoBehaviour
         //Debug.Log("Step 1: Effect type: " + effectType + " Duration: " + duration + " Radius: " + radius);
         effectRadius = radius;
         effectDuriation = duration;
-        effectSphere.transform.localScale = new Vector3(effectRadius, effectRadius, effectRadius);
+
+        effectSphere.transform.localScale += new Vector3(effectRadius/8, effectRadius/8, effectRadius/8);
         switch (effectType)
         {
             case 0:

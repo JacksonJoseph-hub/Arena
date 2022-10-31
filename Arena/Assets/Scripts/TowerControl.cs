@@ -10,12 +10,12 @@ public class TowerControl : MonoBehaviour
     private int numberOfTowers;
     private int numberOfEffects = 2; //2 effects, only used in an array
 
-    private float effectCooldownTimer = 15.0f;
-    private float minEffectDuriationTimer = 10.0f;
-    private float maxEffectDuriationTimer = 15.0f;
-
-    private float minEffectRadiusTimer = 8.0f;
-    private float maxEffectRadiusTimer = 16.0f;
+    [Header("Tower Stats")]
+    public float effectCooldownTimer = 15.0f;
+    public float minEffectDuriationTimer = 10.0f;
+    public float maxEffectDuriationTimer = 15.0f;
+    public float minEffectRadius = 8.0f;
+    public float maxEffectRadius = 16.0f;
 
 
     private float activateNextTowerTimer = 0.0f;
@@ -34,7 +34,7 @@ public class TowerControl : MonoBehaviour
     }
 
     // Check if any tower in the game is active
-    private bool isAnyTowerActive()
+    private bool IsAnyTowerActive()
     {
         foreach (GameObject tower in TowerList)
         {
@@ -60,7 +60,7 @@ public class TowerControl : MonoBehaviour
     private void MasterTowerController()
     {
         // Check if any towers are active and off cooldown
-        if(!isAnyTowerActive()  && !onCooldown())
+        if(!IsAnyTowerActive()  && !onCooldown())
         {
             // Randomly select a tower to active
             int towerSelection = Random.Range(0, numberOfTowers);
@@ -72,7 +72,7 @@ public class TowerControl : MonoBehaviour
             float duriationSelection = Mathf.Floor(Random.Range(minEffectDuriationTimer, maxEffectDuriationTimer));
 
             //Select radius of effect
-            float radiusSelection = Mathf.Floor(Random.Range(minEffectRadiusTimer, maxEffectRadiusTimer));
+            float radiusSelection = Mathf.Floor(Random.Range(minEffectRadius, maxEffectRadius));
 
             Debug.Log("Tower Control activates tower: " + TowerList[towerSelection].name + " at: " + Time.time);
             TowerList[towerSelection].GetComponent<TowerFollower>().FlipActiveStatus();

@@ -8,11 +8,12 @@ TagManager:
   - EnemySpawn
   - Tower
   - Door
+  - UI
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Floor
   - Water
   - UI
   - 

@@ -57,7 +57,6 @@ public class PlayerController : MonoBehaviour
 
         // Create a RaycastHit variable to store information about what was hit by the ray.
         RaycastHit floorHit;
-
         // Perform the raycast and if it hits something on the floor layer...
         if (Physics.Raycast(camRay, out floorHit, camRayLength, floorMask))
         {

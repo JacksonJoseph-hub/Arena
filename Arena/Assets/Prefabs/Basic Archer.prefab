@@ -184,7 +184,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 1
+  m_BaseOffset: 0.1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &4837562182874099538
@@ -200,11 +200,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spirit: 5
-  speed: 1.1
   strength: 1
   guile: 1
   protection: 2
-  scoreValue: 0
+  scoreValue: 50
+  movementSpeed: 1.3
   attackSpeed: 3
   attackRange: 30
   projectileSpeed: 5
@@ -223,7 +223,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrow: {fileID: 3616114087587505759, guid: 73d31a438046a1240b4ac1c95e27ffda, type: 3}
   firePosition: {fileID: 7670423471626926665}
-  movementSpeed: 1.5
   minShootRange: 5
   maxShootRange: 25
   attackDelay: 0

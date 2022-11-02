@@ -12,12 +12,6 @@ public class Enemy_BasicRanger_Controller : MonoBehaviour
     private EnemyInformation gruntInfo;
     private UnityEngine.AI.NavMeshAgent navAgent;
 
-
-
-
-    //This will be the enemy speed. Adjust as necessary.
-    public float movementSpeed = 1.5f;
-
     //Minimum distance before firing
     public float minShootRange = 5.0f;
     public float maxShootRange = 25.0f;
@@ -43,7 +37,7 @@ public class Enemy_BasicRanger_Controller : MonoBehaviour
         nextShot = Time.time + attackDelay;
         navAgent = gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>();
 
-        navAgent.speed = gruntInfo.speed;
+        navAgent.speed = gruntInfo.movementSpeed;
     }
 
     // Update is called once per frame

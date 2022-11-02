@@ -69,7 +69,7 @@ public class TowerFollower : MonoBehaviour
         effectRadius = radius;
         effectDuriation = duration;
 
-        effectSphere.transform.localScale += new Vector3(effectRadius/8, effectRadius/8, effectRadius/8);
+        effectSphere.transform.localScale += new Vector3(effectRadius, effectRadius, effectRadius);
         switch (effectType)
         {
             case 0:

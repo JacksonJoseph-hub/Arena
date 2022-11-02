@@ -29,6 +29,7 @@ public class HUDControl : MonoBehaviour
 
     public void UpdateHealthText(float currentH, float maxH)
     {
+        //Debug.Log("Update text @" + Time.time + currentH + " / " + maxH);
         string t = Mathf.FloorToInt(currentH) + "/" + Mathf.FloorToInt(maxH);
         healthText.text = t;
     }

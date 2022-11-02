@@ -8,11 +8,13 @@ public class EnemyInformation : MonoBehaviour
     private PlayerAttack playerAttackScript;
     [Header("Enemy Stats")]
     public int spirit = 5; // determines Max Health
-    public float speed = 1.1f; // determines player movement speed
+    //public float speed = 1.1f; 
     public int strength = 1; // determines damage
     public int guile = 1; // determines attack speed / crit / usables
     public int protection = 2; //determines damage reduction
     public int scoreValue;
+
+    public float movementSpeed; // determines player movement speed
     public float attackSpeed;
     public float attackRange;
     public float projectileSpeed;
@@ -62,7 +64,6 @@ public class EnemyInformation : MonoBehaviour
         {
             Debug.Log("Destroying: " + this.gameObject.name);
             totalStatValue = spirit + strength + spirit + guile + protection;
-            scoreValue = totalStatValue * 3;
             hudControl.ModifyPlayerScore(scoreValue);
             Debug.Log("Score +" + scoreValue);
             Destroy(this.gameObject);

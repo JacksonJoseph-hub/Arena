@@ -123,10 +123,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c4a867ac8026c94e8e554ae520a01d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPosition: {x: 0, y: 0, z: 0}
-  movementSpeed: 1.5
-  attackDelay: 0
-  attackRange: 0
 --- !u!114 &279452038644436785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,11 +136,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spirit: 5
-  speed: 1.1
   strength: 3
   guile: 1
   protection: 2
-  scoreValue: 0
+  scoreValue: 25
+  movementSpeed: 1.5
   attackSpeed: 2
   attackRange: 5
   projectileSpeed: 0

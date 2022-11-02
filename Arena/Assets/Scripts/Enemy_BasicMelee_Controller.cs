@@ -8,16 +8,13 @@ public class Enemy_BasicMelee_Controller : MonoBehaviour
     private GameObject player;
     private PlayerInformation playerInfo;
     private EnemyInformation gruntInfo;
-    public Vector3 playerPosition;
+    private Vector3 playerPosition;
     private UnityEngine.AI.NavMeshAgent navAgent;
 
-    //This will be the enemy speed. Adjust as necessary.
-    public float movementSpeed = 1.5f;
-
     //Time between attacks
-    public float attackDelay;
+    private float attackDelay;
     //Max distance of attack
-    public float attackRange;
+    private float attackRange;
 
     private bool isAttacking = false;
 
@@ -36,7 +33,7 @@ public class Enemy_BasicMelee_Controller : MonoBehaviour
         attackRange = gruntInfo.attackRange;
 
         navAgent = gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>();
-        navAgent.speed = movementSpeed;
+        navAgent.speed = gruntInfo.movementSpeed;
 
         playerPosition = player.transform.position; //Track its position (for pathing/shooting)
         playerInfo = player.GetComponentInParent<PlayerInformation>(); //Access info script to set effects/pass damage
@@ -46,7 +43,7 @@ public class Enemy_BasicMelee_Controller : MonoBehaviour
     void Update()
     {
         playerPosition = player.transform.position;
-        navAgent.speed = movementSpeed;
+        //navAgent.speed = movementSpeed;
         transform.LookAt(playerPosition);
         navAgent.SetDestination(playerPosition);
 

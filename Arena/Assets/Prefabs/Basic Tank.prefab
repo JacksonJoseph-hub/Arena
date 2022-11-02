@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4675485121346930989}
   - component: {fileID: 4751230823614846597}
   - component: {fileID: 1874503091058523053}
+  - component: {fileID: 1876857713545127610}
   m_Layer: 0
   m_Name: Basic Tank
   m_TagString: Enemy
@@ -122,10 +123,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c4a867ac8026c94e8e554ae520a01d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPosition: {x: 0, y: 0, z: 0}
-  movementSpeed: 1.5
-  attackDelay: 0
-  attackRange: 0
 --- !u!114 &4675485121346930989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,11 +136,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spirit: 5
-  speed: 1.1
   strength: 3
   guile: 1
   protection: 8
   scoreValue: 100
+  movementSpeed: 0.8
   attackSpeed: 2
   attackRange: 7
   projectileSpeed: 0
@@ -176,3 +173,19 @@ CapsuleCollider:
   m_Height: 3.3159742
   m_Direction: 1
   m_Center: {x: 0.07074636, y: 0.6579873, z: 0.40495858}
+--- !u!54 &1876857713545127610
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7457072016891194386}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 5
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

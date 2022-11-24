@@ -12,6 +12,13 @@ public class Enemy_BasicRanger_Controller : MonoBehaviour
     private EnemyInformation gruntInfo;
     private UnityEngine.AI.NavMeshAgent navAgent;
 
+
+    [Header("Sounds")]
+    public AudioSource audioControl;
+    public AudioClip _a_attacksound;
+
+
+
     //Minimum distance before firing
     public float minShootRange = 5.0f;
     public float maxShootRange = 25.0f;
@@ -27,6 +34,7 @@ public class Enemy_BasicRanger_Controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioControl = GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
         gruntInfo = gameObject.GetComponent<EnemyInformation>();
 
@@ -96,6 +104,8 @@ public class Enemy_BasicRanger_Controller : MonoBehaviour
     } // Returns distance between object and player
     private void ShootArrow()
     {
+        audioControl.clip = _a_attacksound;
+        audioControl.Play();
         GameObject tempArrow = Instantiate(arrow, firePosition.position, Quaternion.LookRotation(playerPosition));
         tempArrow.GetComponent<BasicArrow>().SetTarget(playerPosition, projectileSpeed);
 

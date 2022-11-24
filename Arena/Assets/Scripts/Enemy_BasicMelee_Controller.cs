@@ -11,6 +11,11 @@ public class Enemy_BasicMelee_Controller : MonoBehaviour
     private Vector3 playerPosition;
     private UnityEngine.AI.NavMeshAgent navAgent;
 
+    [Header("Sounds")]
+    public AudioSource audioControl;
+    public AudioClip _a_attacksound;
+
+
     //Time between attacks
     private float attackDelay;
     //Max distance of attack
@@ -28,6 +33,7 @@ public class Enemy_BasicMelee_Controller : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player"); //Assign player game object
         gruntInfo = gameObject.GetComponent<EnemyInformation>();
+        audioControl = GetComponent<AudioSource>();
 
         attackDelay = gruntInfo.attackSpeed;
         attackRange = gruntInfo.attackRange;
@@ -68,6 +74,8 @@ public class Enemy_BasicMelee_Controller : MonoBehaviour
         yield return new WaitForSeconds(attackDelay);
         if(InAttackRange())
             {
+                audioControl.clip = _a_attacksound;
+                audioControl.Play();
                 playerInfo.TakeMeleeDamage(Mathf.FloorToInt(Random.Range(minAttackDamage,maxAttackDamage)));
                 //playerInfo.SetNegativeStatusEffect(6.0f, 2, 2);
             }

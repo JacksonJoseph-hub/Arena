@@ -6,17 +6,25 @@ public class PlayerAttack : MonoBehaviour
 {
     public List<GameObject> coneHitEnemies;
     public PlayerInformation playerInfo;
-    public ParticleSystem shockwaveParticle;
+    //public ParticleSystem shockwaveParticle;
     private EnemyInformation enemyInfo;
     private IEnumerator coroutine;
 
+    [Header("Sounds")]
+    public AudioSource audioControl;
+    public AudioClip _a_attacksound;
+
+
     public float shockwaveRadius = 5.0f;
     public float shockwaveCooldown = 3.0f;
+
+    private float basicAttackCooldownduration = 0.8f;
+    private bool isBasicAttackOnCooldown = false;
     public bool isShockwaveOnCooldown = false;
     private void Awake()
     {
         //shockwaveParticle.Stop();
-        Debug.Log(shockwaveParticle.isPlaying);
+        audioControl = GetComponent<AudioSource>();
         playerInfo = GameObject.FindGameObjectWithTag("Player").GetComponentInParent<PlayerInformation>(); //Access info script to set effects/pass damage
     }
     // Start is called before the first frame update
@@ -25,7 +33,7 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !isBasicAttackOnCooldown)
         {
             BasicConeAttack();
         }
@@ -68,6 +76,8 @@ public class PlayerAttack : MonoBehaviour
         ConeAttackCheckList();
         int dmg = CalculateDamageDealt(playerInfo.strength * 2 + playerInfo.guile);
 
+        audioControl.clip = _a_attacksound;
+        audioControl.Play();
 
         foreach (GameObject target in coneHitEnemies)
         {
@@ -75,6 +85,9 @@ public class PlayerAttack : MonoBehaviour
             enemyInfo = target.gameObject.GetComponent<EnemyInformation>();
             enemyInfo.TakeMeleeDamage(dmg);
         }
+
+        coroutine = BasicAttackCooldown(basicAttackCooldownduration);
+        StartCoroutine(coroutine);
     }
 
     private int CalculateDamageDealt(float rawDamage)
@@ -120,6 +133,16 @@ public class PlayerAttack : MonoBehaviour
             }
         }
         */
+    }
+    private IEnumerator BasicAttackCooldown(float timer)
+    {
+        isBasicAttackOnCooldown = true;
+        playerInfo.animControl.SetBool("IsAttacking", true);
+        Debug.Log("Basic Cooldown started: " + Time.time);
+        yield return new WaitForSeconds(timer);
+        Debug.Log("Basic Cooldown ended: " + Time.time);
+        playerInfo.animControl.SetBool("IsAttacking", false);
+        isBasicAttackOnCooldown = false;
     }
     private IEnumerator ShockwaveCooldown(float timer)
     {

@@ -8,6 +8,11 @@ public class SpawnHandler : MonoBehaviour
     public List<Vector3> spawnLocations;
     public HUDControl hudControl;
 
+    [Header("Crowd Sounds")]
+    public AudioSource audioControl;
+    public AudioClip _a_backgroundNoise;
+    public AudioClip _a_cheering;
+
     //Spawn system planning
 
     // n # enemy prefabs
@@ -34,6 +39,7 @@ public class SpawnHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioControl = GetComponent<AudioSource>();
         hudControl = GameObject.FindGameObjectWithTag("UI").GetComponent<HUDControl>();
         hudControl.UpdateWaveText(waveNumber);
         // Create a list of all possible enemy spawn Locations
@@ -62,6 +68,8 @@ public class SpawnHandler : MonoBehaviour
         }
         if(!isAnyEnemyAlive && !isSpawning) //If no enemies are alive and spawning isnt active -> start spawning
         {
+            coroutine = CrowdCheer();
+            StartCoroutine(coroutine);
             waveNumber++;
             hudControl.UpdateWaveText(waveNumber);
             if (waveNumber % 3 == 0)
@@ -79,7 +87,18 @@ public class SpawnHandler : MonoBehaviour
             StartCoroutine(coroutine);
         }
     }
-
+    private IEnumerator CrowdCheer()
+    {
+        audioControl.Stop();  //Stop background noise
+        audioControl.clip = _a_cheering;
+        audioControl.volume = 0.8f;
+        audioControl.Play();
+        yield return new WaitForSeconds(audioControl.clip.length);
+        audioControl.clip = _a_backgroundNoise;
+        audioControl.volume = 0.25f;
+        audioControl.loop = true;   
+        audioControl.Play();
+    }
     private IEnumerator SpawnEnum(float delay)
     {
         isSpawning = true;

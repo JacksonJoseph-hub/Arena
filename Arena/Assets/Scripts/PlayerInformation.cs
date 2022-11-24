@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class PlayerInformation : MonoBehaviour
 {
     private PlayerController playerController; //Access for speed modifications
-    public GameObject player;
+    //public GameObject player;
     public HUDControl hdControl;
+    public Animator animControl;
     [SerializeField] private Image HealthCircle; //Hp display tracker
 
     private IEnumerator coroutine;
@@ -23,6 +24,7 @@ public class PlayerInformation : MonoBehaviour
     public int divineFavor = 0; //determines luck
 
     // resource/health stats
+
     private float maxHealth;
     private float currentHealth;
 
@@ -52,7 +54,9 @@ public class PlayerInformation : MonoBehaviour
 
     private void Awake()
     {
-        playerController = player.GetComponent<PlayerController>();
+        animControl = GetComponent<Animator>();
+        playerController = GetComponent<PlayerController>();
+        //playerController = player.GetComponent<PlayerController>();
     }
     void Start()
     {

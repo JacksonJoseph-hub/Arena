@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
             playerRb.AddForce(moverDir * playerMovementSpeed);
         if (Input.GetKey(KeyCode.W))
-            playerRb.AddForce(moverDir * playerMovementSpeed);
+            playerRb.AddForce(moverDir * playerMovementSpeed * 2);
 
         // Turn the player to face the mouse cursor.
         Turning();

@@ -204,11 +204,12 @@ MonoBehaviour:
   strength: 1
   guile: 1
   protection: 2
-  scoreValue: 50
+  basescoreValue: 20
   movementSpeed: 1.3
   attackSpeed: 3
   attackRange: 50
-  projectileSpeed: 5
+  projectileSpeed: 6
+  projectileDamage: 10
   difficultyThreshold: 1
 --- !u!114 &2486372400047467827
 MonoBehaviour:
@@ -228,6 +229,7 @@ MonoBehaviour:
   _a_attacksound: {fileID: 8300000, guid: fa3434739191c774cae75ab9659a279e, type: 3}
   minShootRange: 5
   maxShootRange: 25
+  projectileDamage: 0
   attackDelay: 0
   attackRange: 0
   projectileSpeed: 0

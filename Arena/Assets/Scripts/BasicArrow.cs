@@ -8,6 +8,7 @@ public class BasicArrow : MonoBehaviour
     private GameObject player;
     private Vector3 _target;
     private float _projectileSpeed;
+    private float _projectileDamage;
 
     // Start is called before the first frame update
     void Start()
@@ -27,17 +28,19 @@ public class BasicArrow : MonoBehaviour
         }
     }
 
-    public void SetTarget(Vector3 target, float projectileSpeed)
+    public void SetTarget(Vector3 target, float projectileSpeed, float projectileDamage)
     {
         _target = target;
         _projectileSpeed = projectileSpeed;
+        _projectileDamage = projectileDamage;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.GetComponentInParent<PlayerInformation>().TakeMeleeDamage(15);
+            Debug.Log("Hit Check");
+            collision.gameObject.GetComponentInParent<PlayerInformation>().TakeMeleeDamage(_projectileDamage);
             Destroy(this.gameObject);
         }
     }

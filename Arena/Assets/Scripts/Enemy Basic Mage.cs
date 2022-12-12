@@ -96,7 +96,7 @@ public class EnemyBasicMage : MonoBehaviour
     private void ShootArrow()
     {
         GameObject tempArrow = Instantiate(arrow, firePosition.position, Quaternion.LookRotation(playerPosition));
-        tempArrow.GetComponent<BasicArrow>().SetTarget(playerPosition, projectileSpeed);
+        //tempArrow.GetComponent<BasicArrow>().SetTarget(playerPosition, projectileSpeed, projectileDamage);
 
         nextShot = Time.time + attackDelay;
     }

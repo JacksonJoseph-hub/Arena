@@ -74,7 +74,7 @@ public class SpawnHandler : MonoBehaviour
             hudControl.UpdateWaveText(waveNumber);
             if (waveNumber % 3 == 0)
             {
-                Debug.Log("wave mod 3 triggered");
+                //Debug.Log("wave mod 3 triggered");
                 minimumSpawnCount += 1;
                 difficultyThreshold += 1;
             }
@@ -102,7 +102,7 @@ public class SpawnHandler : MonoBehaviour
     private IEnumerator SpawnEnum(float delay)
     {
         isSpawning = true;
-        Debug.Log("Is Spawning: " + isSpawning + " -  Time: " + Time.time);
+        //Debug.Log("Is Spawning: " + isSpawning + " -  Time: " + Time.time);
         for (int i = 0; i < minimumSpawnCount + additionalSpawns; i++)
         {
             //Random Enemy
@@ -111,12 +111,12 @@ public class SpawnHandler : MonoBehaviour
             //Random Spawn Location
             int spawnSelect = Random.Range(0, spawnLocations.Count);
 
-            Debug.Log("Spawning " + enemyPrefabs[enemySelect].name + " at Spawn location " + spawnSelect + "Time: " + Time.time);
+            //Debug.Log("Spawning " + enemyPrefabs[enemySelect].name + " at Spawn location " + spawnSelect + "Time: " + Time.time);
             Instantiate(enemyPrefabs[enemySelect], spawnLocations[spawnSelect], Quaternion.identity);
             yield return new WaitForSeconds(delay);
         }
         isSpawning = false;
-        Debug.Log("Is Spawning: " + isSpawning + " -  Time: " + Time.time);
+        //Debug.Log("Is Spawning: " + isSpawning + " -  Time: " + Time.time);
     }
 
     private int SelectEnemyToSpawn()

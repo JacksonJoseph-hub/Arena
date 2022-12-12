@@ -74,7 +74,6 @@ public class TowerControl : MonoBehaviour
             //Select radius of effect
             float radiusSelection = Mathf.Floor(Random.Range(minEffectRadius, maxEffectRadius));
 
-            Debug.Log("Tower Control activates tower: " + TowerList[towerSelection].name + " at: " + Time.time);
             TowerList[towerSelection].GetComponent<TowerFollower>().FlipActiveStatus();
             TowerList[towerSelection].GetComponent<TowerFollower>().SetActiveTowerParameters(effectSelection, duriationSelection, radiusSelection);
             

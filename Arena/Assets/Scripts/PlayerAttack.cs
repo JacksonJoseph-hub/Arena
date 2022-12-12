@@ -39,18 +39,13 @@ public class PlayerAttack : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.Space) && !isShockwaveOnCooldown)
         {
-            Debug.Log("Shockwave!");
             ShockwaveAttack();
-        }
-        if (Input.GetKeyDown(KeyCode.Space) && isShockwaveOnCooldown)
-        {
-            Debug.Log("Shockwave still on cooldown!");
         }
     }
 
     private void ShockwaveAttack()
     {
-        float shockwaveAttackDamage = playerInfo.strength + playerInfo.protection * playerInfo.glory;
+        float shockwaveAttackDamage = playerInfo.strength + playerInfo.protection * playerInfo.guile;
         if(playerInfo.IsEnraged())
         {
             shockwaveRadius *= 2;
@@ -60,7 +55,7 @@ public class PlayerAttack : MonoBehaviour
         {
             if(col.gameObject.CompareTag("Enemy"))
             {
-                Debug.DrawRay(transform.position, col.transform.position - transform.position, Color.green, 2, false);
+                //Debug.DrawRay(transform.position, col.transform.position - transform.position, Color.green, 2, false);
                 enemyInfo = col.gameObject.GetComponent<EnemyInformation>();
                 enemyInfo.TakeMeleeDamage(shockwaveAttackDamage);
             }
@@ -81,7 +76,7 @@ public class PlayerAttack : MonoBehaviour
 
         foreach (GameObject target in coneHitEnemies)
         {
-            Debug.DrawRay(transform.position, target.transform.position - transform.position, Color.green, 2, false);
+            //Debug.DrawRay(transform.position, target.transform.position - transform.position, Color.green, 2, false);
             enemyInfo = target.gameObject.GetComponent<EnemyInformation>();
             enemyInfo.TakeMeleeDamage(dmg);
         }
@@ -101,11 +96,7 @@ public class PlayerAttack : MonoBehaviour
             calculatedDamage = rawDamage * 3;
             return Mathf.CeilToInt(calculatedDamage);
         }
-
-        
-        calculatedDamage = rawDamage;
-        Debug.Log("calc damage: " + calculatedDamage);
-        return Mathf.CeilToInt(calculatedDamage);
+        return Mathf.CeilToInt(rawDamage);
     }
 
     private void ConeAttackCheckList()
@@ -120,36 +111,19 @@ public class PlayerAttack : MonoBehaviour
             }
         }
         coneHitEnemies = temp;
-        /*
-        if (coneHitEnemies.Count == 0) return;
-        for (int i = 0; i < coneHitEnemies.Count; i++)
-        {
-            if (coneHitEnemies[i] == null || !Physics.Raycast(transform.position, coneHitEnemies[i].transform.position))
-            {
-                Debug.Log("Count: " + coneHitEnemies.Count);
-                coneHitEnemies[i] = coneHitEnemies[coneHitEnemies.Count - 1];
-                coneHitEnemies.RemoveAt(coneHitEnemies.Count - 1);
-                Debug.Log(coneHitEnemies.Count);
-            }
-        }
-        */
     }
     private IEnumerator BasicAttackCooldown(float timer)
     {
         isBasicAttackOnCooldown = true;
         playerInfo.animControl.SetBool("IsAttacking", true);
-        Debug.Log("Basic Cooldown started: " + Time.time);
         yield return new WaitForSeconds(timer);
-        Debug.Log("Basic Cooldown ended: " + Time.time);
         playerInfo.animControl.SetBool("IsAttacking", false);
         isBasicAttackOnCooldown = false;
     }
     private IEnumerator ShockwaveCooldown(float timer)
     {
         isShockwaveOnCooldown = true;
-        Debug.Log("Cooldown started: " + Time.time);
         yield return new WaitForSeconds(timer);
-        Debug.Log("Cooldown ended: " + Time.time);
         isShockwaveOnCooldown = false;
     }
 }

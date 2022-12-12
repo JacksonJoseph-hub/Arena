@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class PlayerInformation : MonoBehaviour
 {
@@ -17,7 +19,7 @@ public class PlayerInformation : MonoBehaviour
     [Header("Player Stats")]
     public int spirit = 5; // determines Max Health
     public float speed = 1.1f; // determines player movement speed
-    public float glory = 1.1f; // determintes crowd effect
+    public float glory = 1.0f; // determintes crowd effect
     public int strength = 1; // determines damage
     public int guile = 1; // determines attack speed / crit / usables
     public int protection = 2; //determines damage reduction
@@ -60,7 +62,7 @@ public class PlayerInformation : MonoBehaviour
     }
     void Start()
     {
-        maxHealth = spirit * 10;
+        UpdateMaxHealth();
         currentHealth = maxHealth;
         UpdateHealth();
         playerController.UpdatePlayerSpeed(speed);
@@ -71,7 +73,7 @@ public class PlayerInformation : MonoBehaviour
     {
         if (currentHealth <= 0)
         {
-            //Debug.Log("Player died");
+            SceneManager.LoadScene("Main Menu");
         }
         
     }
@@ -85,7 +87,11 @@ public class PlayerInformation : MonoBehaviour
     {
         return maxHealth;
     }
-
+    public void UpdateMaxHealth()
+    {
+        maxHealth = spirit * 10;
+        UpdateHealth();
+    }
     public void TakeHealing(float healing)
     {
         Debug.Log("Player heals for: " + healing);
@@ -116,7 +122,7 @@ public class PlayerInformation : MonoBehaviour
 
     public void TakeMeleeDamage(float damage)
     {
-        TakeDamage(damage - guile - (3*protection));
+        TakeDamage(damage - (guile + (3*protection)));
     }
 
 

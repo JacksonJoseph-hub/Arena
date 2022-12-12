@@ -20,8 +20,11 @@ public class Enemy_BasicRanger_Controller : MonoBehaviour
 
 
     //Minimum distance before firing
-    public float minShootRange = 5.0f;
-    public float maxShootRange = 25.0f;
+    public float minShootRange;
+    public float maxShootRange;
+
+    //Projectile Damage
+    public float projectileDamage;
 
     //Time between attacks
     public float attackDelay;
@@ -41,6 +44,7 @@ public class Enemy_BasicRanger_Controller : MonoBehaviour
         attackDelay = gruntInfo.attackSpeed;
         attackRange = gruntInfo.attackRange;
         projectileSpeed = gruntInfo.projectileSpeed;
+        projectileDamage = gruntInfo.projectileDamage;
 
         nextShot = Time.time + attackDelay;
         navAgent = gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>();
@@ -60,8 +64,9 @@ public class Enemy_BasicRanger_Controller : MonoBehaviour
     // If neither true && attack is off cooldown -> shoot player
     private void Skirmish()
     {
-        transform.LookAt(playerPosition); //Rotate object to look at player
         playerPosition = player.transform.position; //Update player position
+        transform.LookAt(playerPosition); //Rotate object to look at player
+        
 
 
         if (!InRange()) // Check if the player is too far away - true = move towards player
@@ -69,7 +74,7 @@ public class Enemy_BasicRanger_Controller : MonoBehaviour
             navAgent.isStopped = false;
             navAgent.SetDestination(playerPosition); 
         }     
-        else if(RunAway()) // Check if the player is too far away - true = move towards player
+        else if(RunAway()) // Check if the player is too close away - true = move towards player
         {
             Vector3 direction = transform.position - playerPosition; //Sets direction to opposite way of player
             Vector3 moveTo = transform.position + direction * 2;
@@ -107,7 +112,7 @@ public class Enemy_BasicRanger_Controller : MonoBehaviour
         audioControl.clip = _a_attacksound;
         audioControl.Play();
         GameObject tempArrow = Instantiate(arrow, firePosition.position, Quaternion.LookRotation(playerPosition));
-        tempArrow.GetComponent<BasicArrow>().SetTarget(playerPosition, projectileSpeed);
+        tempArrow.GetComponent<BasicArrow>().SetTarget(playerPosition, projectileSpeed, projectileDamage);
 
         nextShot = Time.time + attackDelay;
     }

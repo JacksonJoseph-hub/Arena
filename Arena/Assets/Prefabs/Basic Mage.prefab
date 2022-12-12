@@ -188,12 +188,13 @@ MonoBehaviour:
   strength: 1
   guile: 1
   protection: 2
-  scoreValue: 75
+  basescoreValue: 30
   movementSpeed: 2
   attackSpeed: 3
   attackRange: 40
-  projectileSpeed: 4
-  difficultyThreshold: 1
+  projectileSpeed: 3
+  projectileDamage: 35
+  difficultyThreshold: 2
 --- !u!114 &5893531484213479322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,6 +213,7 @@ MonoBehaviour:
   _a_attacksound: {fileID: 8300000, guid: c3da5c96fb379e849ac5e5611d89bad1, type: 3}
   minShootRange: 5
   maxShootRange: 25
+  projectileDamage: 0
   attackDelay: 0
   attackRange: 0
   projectileSpeed: 0

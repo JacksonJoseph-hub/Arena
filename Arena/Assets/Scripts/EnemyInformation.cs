@@ -12,12 +12,13 @@ public class EnemyInformation : MonoBehaviour
     public int strength = 1; // determines damage
     public int guile = 1; // determines attack speed / crit / usables
     public int protection = 2; //determines damage reduction
-    public int scoreValue;
+    public int basescoreValue;
 
     public float movementSpeed; // determines player movement speed
     public float attackSpeed;
     public float attackRange;
     public float projectileSpeed;
+    public float projectileDamage;
     //How difficult this enemy prefab is, higher is harder
     public int difficultyThreshold; 
 
@@ -62,10 +63,9 @@ public class EnemyInformation : MonoBehaviour
     {
         if(currentHealth <= 0)
         {
-            Debug.Log("Destroying: " + this.gameObject.name);
             totalStatValue = spirit + strength + spirit + guile + protection;
-            hudControl.ModifyPlayerScore(scoreValue);
-            Debug.Log("Score +" + scoreValue);
+            Debug.Log(gameObject.name + " Base: " + basescoreValue + " stat " + totalStatValue);
+            hudControl.ModifyPlayerScore(basescoreValue+totalStatValue);
             Destroy(this.gameObject);
         }
     }

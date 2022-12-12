@@ -57,7 +57,7 @@ public class Enemy_BasicMelee_Controller : MonoBehaviour
         if (InAttackRange() && !isAttacking)
         {
             minAttackDamage = gruntInfo.strength;
-            maxAttackDamage = gruntInfo.strength * 10;
+            maxAttackDamage = gruntInfo.strength * 4;
             StartCoroutine(Attack());
         }
     }
@@ -77,7 +77,7 @@ public class Enemy_BasicMelee_Controller : MonoBehaviour
                 audioControl.clip = _a_attacksound;
                 audioControl.Play();
                 playerInfo.TakeMeleeDamage(Mathf.FloorToInt(Random.Range(minAttackDamage,maxAttackDamage)));
-                //playerInfo.SetNegativeStatusEffect(6.0f, 2, 2);
+                playerInfo.SetNegativeStatusEffect(6.0f, 24, 0);
             }
         navAgent.isStopped = false;
         isAttacking = false;
